@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Medicine</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script> 
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+</head>
+<body style="background-color: black; color: #6BD0FF;">
+    <script src="app.js"></script>
+    <h1 style="font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif"  class="text-center">Add Medicine</h1>
+    <br>
+    <div class="container">
+    <div class="row-lg">
+    <div class="col-lg-6">
+    <form style="font-size: 19px; font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;">
+        <div class="form-group">
+          <label>Drug name</label>
+          <input style="border:none; color: white; height:4.2rem; font-size: 17px; background-color: black; box-shadow: 0 0 10px rgba(0,255,255,0.7), 0 0 5px rgba(0,255,255,0.7);" type="text" class="form-control" id="dname" aria-describedby="emailHelp">
+        </div>
+        <div class="form-group">
+            <label>Batch no</label>
+            <input style="border:none; color: white; height:4.2rem; font-size: 17px; background-color: black; box-shadow: 0 0 10px rgba(0,255,255,0.7), 0 0 5px rgba(0,255,255,0.7);" type="text" class="form-control" id="batchno">
+        </div>
+        <div class="form-group">
+            <label>Drug quantity</label>
+            <input style="border:none; color: white; height:4.2rem; font-size: 17px; background-color: black; box-shadow: 0 0 10px rgba(0,255,255,0.7), 0 0 5px rgba(0,255,255,0.7);" type="text" class="form-control" id="quantity">
+        </div>
+        <div class="form-group">
+            <label>Date of manufacture</label>
+            <input style="border:none; color: white; height:4.2rem; font-size: 17px; background-color: black; box-shadow: 0 0 10px rgba(0,255,255,0.7), 0 0 5px rgba(0,255,255,0.7);" type="date" class="form-control" id="manfdate">
+        </div> 
+        <div class="form-group">
+            <label>Date of expire</label>
+            <input style="border:none; color: white; height:4.2rem; font-size: 17px; background-color: black; box-shadow: 0 0 10px rgba(0,255,255,0.7), 0 0 5px rgba(0,255,255,0.7);" type="date" class="form-control" id="expdate">
+        </div>
+        <div class="form-group">
+            <label>Package insert</label>
+            <input style="border:none; color: white; height:4.2rem; font-size: 17px; background-color: black; border-radius: none; box-shadow: 0 0 10px rgba(0,255,255,0.7), 0 0 5px rgba(0,255,255,0.7);" type="file" class="form-control" id="pkgins">
+        </div>
+        <br>
+        <button onclick="add_drug()" type="button" style="width: 15rem; background-color: black; border: 1px solid #6BD0FF;" class="btn btn-lg">Submit</button>
+        <small style="color: white;" id="info"></small> 
+        <button disabled="true" onclick="add_manufacturer()" type="button" class="btn btn-lg" style="background-color: black; border: 1px solid #6BD0FF;" id="manfbtn">Generate QR Code</button>
+    </form>
+    <br>
+    <div id="qrcode">
+    <small style="color: white;" id="info1"></small> 
+    </div>
+    <br>
+    </div> 
+    <div class="col-lg-6">
+        <img src="adddrug.png" style="width: 70rem; height: 55rem;">
+    </div>
+    </div>
+    </div> 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script src=”http://html2canvas.hertzen.com/dist/html2canvas.js”></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+</body>
+</html>

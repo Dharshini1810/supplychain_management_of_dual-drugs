@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">  
+    <title>Validate end-user</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Font Awesome CDN Link for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>  
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <style>
+    hr{
+      background-color: white;
+    }
+  </style>
+  <body>
+    <div class="wrapper">
+      <form action="#">
+        <input type="file" hidden>
+        <img src="#" alt="qr-code">
+        <div class="content">
+          <i class="fas fa-cloud-upload"></i>
+          <p>Upload QR Code to Read</p>
+        </div>
+      </form>
+      <div class="details">
+        <textarea spellcheck="false" disabled></textarea>
+        <br>
+        <p style="color: white;" id="drugdetails"></p>
+        <p style="color: white;" id="drugdetails1"></p>
+        <div class="row-md">
+          <div class="col-md-3">
+            <i id="manficon" title="Manufacturer" style="background-color: black; color:red;font-size: 30px; border: 2px solid red; padding: 5px; border-radius: 30px; margin-right: 40px;" class="icon fas fa-industry"></i>
+            <i id="disticon" title="Distributor" style="background-color: black; color: red;font-size: 30px; border: 2px solid red; padding: 5px; border-radius: 30px; margin-right: 40px;" class="icon fas fa-building"></i>
+            <i id="logicon" title="Logistic" style="background-color: black; color:red;font-size: 30px; border: 2px solid red; padding: 5px; border-radius: 30px; margin-right: 40px;" class="icon fas fa-truck"></i>
+            <i id="usericon" title="EndUser" style="background-color: black; color:red;font-size: 30px; border: 2px solid red; padding: 5px; border-radius: 30px;" class="icon fas fa-users"></i>
+          </div>
+          <hr style="margin-top:-20px; border:none; height: 2.5px; width: 20rem;">
+        </div>  
+        <div style="margin-top: 30px;" class="buttons">
+          <button class="close">Close</button>
+          <button class="copy">Validate User</button>
+        </div> 
+        <h4 style="margin-top:70px; color: white; font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;">Enter Secret Code:</h4>
+        <input style="border:none; color: white; height:2.2rem; font-size: 17px; background-color: black; border-radius: none; box-shadow: 0 0 10px rgba(0,255,255,0.7), 0 0 5px rgba(0,255,255,0.7); margin-top: 10px; margin-bottom: 60px;" type="text" class="form-control" id="secretcode">
+        <div style="margin-top: -40px;" class="buttons">
+        <button onclick="endchain()" style="margin-bottom: 20px;">End Supplychain</button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+        const wrapper = document.querySelector(".wrapper"),
+form = document.querySelector("form"),
+fileInp = form.querySelector("input"),
+infoText = form.querySelector("p"),
+closeBtn = document.querySelector(".close"),
+copyBtn = document.querySelector(".copy");
+
+function fetchRequest(file, formData) {
+    infoText.innerText = "Scanning QR Code...";
+    fetch("http://api.qrserver.com/v1/read-qr-code/", {
+        method: 'POST', body: formData
+    }).then(res => res.json()).then(result => {
+        result = result[0].symbol[0].data;
+        infoText.innerText = result ? "Upload QR Code to Scan" : "Couldn't scan QR Code";
+        if(!result) return;
+        document.querySelector("textarea").innerText = result;
+        getDetails(document.querySelector("textarea").textContent);
+        form.querySelector("img").src = URL.createObjectURL(file);
+        wrapper.classList.add("active");
+    }).catch(() => {
+        infoText.innerText = "Couldn't scan QR Code";
+    });
+}
+
+fileInp.addEventListener("change", async e => {
+    let file = e.target.files[0];
+    if(!file) return;
+    let formData = new FormData();
+    formData.append('file', file);
+    fetchRequest(file, formData);
+});
+
+copyBtn.addEventListener("click", () => {
+    let text = document.querySelector("textarea").textContent;
+    add_user(text);
+});
+
+form.addEventListener("click", () => fileInp.click());
+closeBtn.addEventListener("click", () =>  wrapper.classList.remove("active"));
+function endchain(){
+  let text = document.querySelector("textarea").textContent;
+  let code=document.getElementById("secretcode").value; 
+  _endchain(text,code);
+}
+    </script>
+    <script src="app.js"></script>
+  </body>
+</html>
