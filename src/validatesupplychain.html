@@ -18,7 +18,7 @@
     <div style="padding-top: 50px;" class="container">
         <div class="row-lg">
         <div class="col-lg-4">
-        <form style="font-size: 19px; font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;">
+        <form id="mailverf" style="font-size: 19px; font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;">
             <div class="form-group">
               <label style="color: #6BD0FF;">Enter EndUser's Mail Id</label>
               <input style="border:none; color: white; height:4.2rem; font-size: 17px; background-color: black; box-shadow: 0 0 10px rgba(0,255,255,0.7), 0 0 5px rgba(0,255,255,0.7);" type="email" class="form-control" id="mailid" aria-describedby="emailHelp">
@@ -27,7 +27,7 @@
         </form>
         </div>
         <div style="padding-top: 30px;" class="col-lg-4"> 
-        <button type="button" style="color: #6BD0FF; width: 15rem; background-color: black; border: 1px solid #6BD0FF;" class="btn btn-lg">Check</button>
+        <button type="button" style="color: #6BD0FF; width: 15rem; background-color: black; border: 1px solid #6BD0FF;" onclick="verify()" class="btn btn-lg">Check</button>
         </div>
     </div>
     </div>
@@ -38,27 +38,58 @@
         <form style="font-size: 19px; font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;">
             <div class="form-group">
               <label style="color: #6BD0FF;">Enter Batch No</label>
-              <input style="border:none; color: white; height:4.2rem; font-size: 17px; background-color: black; box-shadow: 0 0 10px rgba(0,255,255,0.7), 0 0 5px rgba(0,255,255,0.7);" type="text" class="form-control" id="batchno">
+              <input style="border:none; color: white; height:4.2rem; font-size: 17px; background-color: black; box-shadow: 0 0 10px rgba(0,255,255,0.7), 0 0 5px rgba(0,255,255,0.7);" type="text" class="form-control" id="batchno" disabled>
               <br>
               <short style="color: white; font-size: 17px;" id="info1"></short>
             </div>
         </form>
         </div>
         <div style="padding-top: 30px;" class="col-lg-4"> 
-        <button onclick="generate_code()" type="button" style="color: #6BD0FF; width: 15rem; background-color: black; border: 1px solid #6BD0FF;" class="btn btn-lg">Send Code</button>
+        <button id="btn" onclick="generate_code()" type="button" style="color: #6BD0FF; width: 15rem; background-color: black; border: 1px solid #6BD0FF;" class="btn btn-lg" disabled>Send Code</button>
         </div>
     </div> 
     <div style="margin-left: 17rem; margin-top: -25rem;" class="col-lg-5">
         <img src="validateimg.png" style="width: 70rem; height: 55rem;">
     </div>
-    </div>     
-    <script>
-        function generate_code(){
-            var batchno=document.getElementById("batchno").value; 
-            var mail=$("#mailid").val();
-            generatecode(batchno,mail);
-        }
-    </script>
+    </div>      
+    <script src="https://www.gstatic.com/firebasejs/8.3.2/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.3.2/firebase-database.js"></script>
+    <script> 
+    function verify(){
+    var firebaseConfig = {
+    apiKey: "AIzaSyDFENCqWOEAThFZs3Rvr9oztnftPtHvRPg",
+    authDomain: "userreg-8738f.firebaseapp.com",
+    projectId: "userreg-8738f",
+    storageBucket: "userreg-8738f.appspot.com",
+    messagingSenderId: "35190940414",
+    appId: "1:35190940414:web:cef005cc85b6a735ebbbaf"
+  };
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+  
+  //Get Values
+  var mailid = document.getElementById("mailid").value;
+  var ref = firebase.database().ref("messages");
+      ref.once("value", function(snapshot) {
+      snapshot.forEach(function(childSnapshot) {
+      var email = childSnapshot.val().mailid;
+    if (email == mailid) {
+      document.getElementById("info").innerHTML="User validated! Generate secret code."
+      document.getElementById("batchno").disabled=false;
+      document.getElementById("btn").disabled=false;
+    } 
+    else{
+        document.getElementById("info").innerHTML="Not a valid end-user!";
+    }
+  });
+});
+  }
+    function generate_code(){
+        var batchno=document.getElementById("batchno").value; 
+        var mail=$("#mailid").val();
+        generatecode(batchno,mail);
+    }
+</script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
     <script src="app.js"></script>
     <script src="https://smtpjs.com/v3/smtp.js"></script>

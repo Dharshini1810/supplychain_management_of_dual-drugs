@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Registration</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script> 
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+</head>
+<body style="background-color: black; color: #6BD0FF;">
+    <h1 style="font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif"  class="text-center">User Registration</h1>
+    <br>
+    <div class="container">
+    <div class="row-lg">
+    <div class="col-lg-6">
+    <form id="manfreg" style="font-size: 19px; font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;" method="get">
+        <div class="form-group">
+          <label>Name</label>
+          <input style="border:none; color: white; height:4.2rem; font-size: 17px; background-color: black; box-shadow: 0 0 10px rgba(0,255,255,0.7), 0 0 5px rgba(0,255,255,0.7);" type="text" class="form-control" id="name" aria-describedby="emailHelp">
+        </div>
+        <div class="form-group">
+            <label>Company Name</label>
+            <input style="border:none; color: white; height:4.2rem; font-size: 17px; background-color: black; box-shadow: 0 0 10px rgba(0,255,255,0.7), 0 0 5px rgba(0,255,255,0.7);" type="text" class="form-control" id="cname">
+        </div>
+        <div class="form-group">
+            <label>Company Address</label>
+            <input style="border:none; color: white; height:4.2rem; font-size: 17px; background-color: black; box-shadow: 0 0 10px rgba(0,255,255,0.7), 0 0 5px rgba(0,255,255,0.7);" type="text" class="form-control" id="address">
+        </div>
+        <div class="form-group">
+            <label>Email Id</label>
+            <input style="border:none; color: white; height:4.2rem; font-size: 17px; background-color: black; box-shadow: 0 0 10px rgba(0,255,255,0.7), 0 0 5px rgba(0,255,255,0.7);" type="email" class="form-control" id="mailid">
+        </div> 
+        <div class="form-group">
+            <label>Contact No</label>
+            <input style="border:none; color: white; height:4.2rem; font-size: 17px; background-color: black; box-shadow: 0 0 10px rgba(0,255,255,0.7), 0 0 5px rgba(0,255,255,0.7);" type="text" class="form-control" id="cno">
+        </div>
+        <div class="form-group">
+            <label>Contact Website</label>
+            <input style="border:none; color: white; height:4.2rem; font-size: 17px; background-color: black; box-shadow: 0 0 10px rgba(0,255,255,0.7), 0 0 5px rgba(0,255,255,0.7);" type="url" class="form-control" id="cweb">
+        </div>
+        <div class="form-group">
+            <label>Company License</label>
+            <input style="border:none; color: white; height:4.2rem; font-size: 17px; background-color: black; border-radius: none; box-shadow: 0 0 10px rgba(0,255,255,0.7), 0 0 5px rgba(0,255,255,0.7);" type="file" class="form-control" id="license">
+        </div>
+        <br>
+        <button type="submit" style="width: 15rem; background-color: black; border: 1px solid #6BD0FF;" class="btn btn-lg">Register</button>
+    </form>
+    </div> 
+    <div class="col-lg-6">
+        <img src="adddrug.png" style="width: 70rem; height: 55rem;">
+    </div>
+    </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.3.2/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.3.2/firebase-database.js"></script>
+    <script>
+        //Initialize Firebase
+var firebaseConfig = {
+    apiKey: "AIzaSyDFENCqWOEAThFZs3Rvr9oztnftPtHvRPg",
+    authDomain: "userreg-8738f.firebaseapp.com",
+    projectId: "userreg-8738f",
+    storageBucket: "userreg-8738f.appspot.com",
+    messagingSenderId: "35190940414",
+    appId: "1:35190940414:web:cef005cc85b6a735ebbbaf"
+  };
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+  
+  //Reference Message Collection 
+  var messagesRef = firebase.database().ref('messages');
+  
+  //Listen for form Submit 
+  document.getElementById('manfreg').addEventListener('submit', submitForm);
+  
+  //Submit Form
+  function submitForm(e){
+      e.preventDefault();
+  
+  //Get Values
+  var name = getInputVal('name');
+  var cname = getInputVal('cname');
+  var address = getInputVal('address');
+  var mailid = getInputVal('mailid');
+  var cno = getInputVal('cno');
+  var cweb = getInputVal('cweb');
+  var license = getInputVal('license'); 
+  
+  //Save Message 
+  saveMessage(name, cname, address, mailid, cno, cweb, license); 
+  
+  //Alert Message
+  window.alert('Your messages has been sent!'); 
+  
+//   var ref = firebase.database().ref("messages");
+//       ref.once("value", function(snapshot) {
+//       snapshot.forEach(function(childSnapshot) {
+//       var email = childSnapshot.val().mailid;
+//     if (email != "example@example.com") {
+//       console.log("Email ID exists in the database.");
+//     }
+//   });
+// });
+//   window.location.href="ManufacturerMail.html";
+  
+  // Clear form
+  document.getElementById('manfreg').reset();
+  }
+  
+  // Function to get get form values
+  function getInputVal(id){
+      return document.getElementById(id).value;
+  }
+  
+  // Save message to firebase
+  function saveMessage(name, cname, address, mailid, cno, cweb, license){
+      var newMessageRef = messagesRef.push();
+      newMessageRef.set({
+        name: name ,
+        cname: cname,
+        address: address,
+        mailid: mailid,
+        cno: cno,
+        cweb: cweb,
+        license: license
+      });
+    }  
+    </script>
+</body>
+</html>

@@ -13,7 +13,6 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
 </head>
 <body style="background-color: black; color: #6BD0FF;">
-    <script src="app.js"></script>
     <h1 style="font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif"  class="text-center">Add Medicine</h1>
     <br>
     <div class="container">
@@ -42,7 +41,7 @@
         </div>
         <div class="form-group">
             <label>Package insert</label>
-            <input style="border:none; color: white; height:4.2rem; font-size: 17px; background-color: black; border-radius: none; box-shadow: 0 0 10px rgba(0,255,255,0.7), 0 0 5px rgba(0,255,255,0.7);" type="file" class="form-control" id="pkgins">
+            <input style="border:none; color: white; height:4.2rem; font-size: 17px; background-color: black; border-radius: none; box-shadow: 0 0 10px rgba(0,255,255,0.7), 0 0 5px rgba(0,255,255,0.7);" type="file" class="form-control" id="upload" onclick="abc(upload);rk()">
         </div>
         <br>
         <button onclick="add_drug()" type="button" style="width: 15rem; background-color: black; border: 1px solid #6BD0FF;" class="btn btn-lg">Submit</button>
@@ -59,9 +58,19 @@
         <img src="adddrug.png" style="width: 70rem; height: 55rem;">
     </div>
     </div>
-    </div> 
+    </div>
+    <script>
+    </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <script src=”http://html2canvas.hertzen.com/dist/html2canvas.js”></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <!-- loading the minified version using jsDelivr -->
+    <script src="https://cdn.jsdelivr.net/npm/ipfs/dist/index.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/ipfs-http-client/dist/index.min.js"></script>
+    <script src="https://unpkg.com/ipfs-api/dist/index.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/ipfs-http-client/dist/index.min.js"></script>
+    <script src="https://unpkg.com/ipfs-http-client@30.1.3/dist/index.js"></script>
+    <script src="https://bundle.run/buffer@5.2.1"></script>
+    <script src="app.js"></script>
 </body>
 </html>

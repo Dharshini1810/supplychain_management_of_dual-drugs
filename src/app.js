@@ -1,4 +1,4 @@
-var batch;
+        var batch;
         if(typeof web3!=="undefined"){
                 web3=new Web3(ethereum);
         } 
@@ -494,28 +494,44 @@ var batch;
             "type": "function",
             "signature": "0xa5fe211c"
           }
-        ], "0x9e0F16D25E4EBD749AF3C971c2FDB3CF875E5207");  
-
-//Add drug to blockchain
+        ], "0x9e0F16D25E4EBD749AF3C971c2FDB3CF875E5207");   
 function add_drug(){
   var dname=document.getElementById("dname").value;
   var batchno=document.getElementById("batchno").value;
   var quantity=document.getElementById("quantity").value;
   var manfdate=document.getElementById("manfdate").value;
   var expdate=document.getElementById("expdate").value; 
-  batch=batchno;
-  var pkgins=document.getElementById("pkgins").value; 
-  // var result = saveFile(pkgins);  
-  addDrug(dname,batchno,quantity,manfdate,expdate,pkgins);
+  batch=batchno; 
+  addDrug(dname,batchno,quantity,manfdate,expdate);
+}  
+async function toUint8Array(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.addEventListener('load', (event) => {
+      resolve(new Uint8Array(event.target.result));
+    });
+    reader.addEventListener('error', reject);
+    reader.readAsArrayBuffer(file);
+  });
+}
+async function addDrug(dname,batchno,quantity,manfdate,expdate){
+  const node = await Ipfs.create()
+  const file = document.querySelector('input[type="file"]').files[0]
+  const buffer = await toUint8Array(file)
+  const results = await node.add(buffer)
+  var cid=results.path; 
+  // const file1 = await node.cat(cid)
+  // const link = document.createElement('a')
+  // link.href = URL.createObjectURL(new Blob([file1]))
+  // link.download = 'downloadable-file.txt'
+  // link.innerHTML = 'Download file'
+  // document.body.appendChild(link) 
+  const accounts=await window.ethereum.request({method:'eth_requestAccounts'}); 
+  const account=accounts[0];
+  const tx=await contract.methods.AddDrug(dname,quantity,manfdate,expdate,cid,true,batchno).send({from:account}); 
+  document.getElementById("info").innerHTML="*Drug added!"
+  document.getElementById("manfbtn").disabled = false;
 } 
-async function addDrug(dname,batchno,quantity,manfdate,expdate,pkgins){
-    const accounts=await window.ethereum.request({method:'eth_requestAccounts'}); 
-    const account=accounts[0];
-    const tx=await contract.methods.AddDrug(dname,quantity,manfdate,expdate,"address",true,batchno).send({from:account}); 
-    document.getElementById("info").innerHTML="*Drug added!"
-    document.getElementById("manfbtn").disabled = false;
-} 
-
 //Validate Manufacturer
 function add_manufacturer(){
   function getLocation() { 
@@ -543,7 +559,6 @@ async function add_Manufacturer(location,batchno){
   qrCode.makeCode(batchno); 
   document.getElementById("info1").innerHTML="*Save QR code"
 }
-
 //Validate Distributor
 function add_distributor(text){
   function getLocation() { 
@@ -563,7 +578,6 @@ async function add_Distributor(location,batchno){
   const account=accounts[0]; 
   const tx=await contract.methods.addDistributor(batchno,location).send({from:account});     
 }
-
 //Validate Logistic
 function add_logistic(text){
   function getLocation() { 

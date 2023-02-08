@@ -23,7 +23,8 @@ body{
   box-shadow: 0px 1px 2px 0px rgba(0,255,255,0.7),1px 2px 4px 0px rgba(0,255,255,0.7),2px 4px 8px 0px rgba(0,255,255,0.7),2px 4px 16px 0px rgba(0,255,255,0.7);
 }
 .wrapper.active{
-  height: 650px;
+  height: 690px;
+  width: 520px;
 }
 .wrapper form{
   height: 210px;
@@ -77,7 +78,7 @@ form .content p{
   outline: none;
   resize: none;
   color: #fff; 
-  padding-top: 10px; 
+  padding-top: 10px;  
   font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
   font-size: 20px;
   background: none;
