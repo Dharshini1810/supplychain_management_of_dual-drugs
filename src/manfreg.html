@@ -13,6 +13,9 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
 </head>
 <body style="background-color: black; color: #6BD0FF;">
+    <nav style="padding-right: 30px; padding-top: 25px; display: flex; flex-direction: row-reverse;">
+        <ul><a style="color: white; font-size: 18px;" href="">Login</a></ul>
+    </nav>
     <h1 style="font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif"  class="text-center">Manufacturer Registration</h1>
     <br>
     <div class="container">
@@ -130,7 +133,20 @@ var firebaseConfig = {
         cweb: cweb,
         license: license
       });
+      Email.send({
+      Host: "smtp.elasticemail.com",
+      Username: "dharshu1810@gmail.com",
+      Password: "00670F2CA1BDD38CFCA2D55B09EB8F29DFE2",
+      To: mailid,
+      From: "dharshu1810@gmail.com",
+      Subject: "Manufacturer Validation",
+      Body: "Hello, Your registration in our website is successful. Do Login within your credentials for further proceedings in our website.",
+    })
+      .then(function (message) {
+        alert("mail sent successfully")
+      });
     }  
     </script>
+    <script src="https://smtpjs.com/v3/smtp.js"></script>
 </body>
 </html>
