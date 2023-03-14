@@ -73,11 +73,12 @@
   firebase.initializeApp(firebaseConfig);
   
   //Get Values
-  var mailid = document.getElementById("mailid").value;
+  var mailid = document.getElementById("mailid").value; 
   var ref = firebase.database().ref("messages");
       ref.once("value", function(snapshot) {
       snapshot.forEach(function(childSnapshot) {
-      var email = childSnapshot.val().mailid;
+      var email = childSnapshot.val().mailid; 
+      console.log(mailid);
     if (email == mailid) {
       document.getElementById("info").innerHTML="User validated! Generate secret code."
       document.getElementById("batchno").disabled=false;

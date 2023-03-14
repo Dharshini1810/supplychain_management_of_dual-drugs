@@ -665,17 +665,29 @@ async function _displaydetails(batchno){
     document.getElementById("logloc").innerHTML="Location: "+result[2]+"<br>";
     document.getElementById("userloc").innerHTML="Location: "+result[3]+"<br>";
   });
-  contract.methods.returnRolesTimeStamp(batchno).call().then(function(result) {
-    time1=new Date(result[0]*1000).getHours()+":"+new Date(result[0]*1000).getMinutes()+":"+new Date(result[0]*1000).getSeconds();
-    document.getElementById("mants").innerHTML="Timestamp: "+time1+"<br>";
-    time2=new Date(result[1]*1000).getHours()+":"+new Date(result[1]*1000).getMinutes()+":"+new Date(result[1]*1000).getSeconds();
-    document.getElementById("supts").innerHTML="Timestamp: "+time2+"<br>";
-    var test = new Date(result[2]*1000);
-    time3=new Date(result[2]*1000).getHours()+":"+new Date(result[2]*1000).getMinutes()+":"+new Date(result[2]*1000).getSeconds();
-    document.getElementById("logts").innerHTML="Timestamp: "+time3+"<br>"; 
-    time4=new Date(result[3]*1000).getHours()+":"+new Date(result[3]*1000).getMinutes()+":"+new Date(result[3]*1000).getSeconds();
-    document.getElementById("userts").innerHTML="Timestamp: "+time4+"<br>";
-  });
+  contract.methods.returnRolesTimeStamp(batchno).call().then(function(result) { 
+let options = { 
+    year: 'numeric', 
+    month: 'short', 
+    day: 'numeric',
+    hour: 'numeric',
+    minute: 'numeric',
+    second: 'numeric',
+    hour12: false 
+};
+let dateObj1 = new Date(result[0] * 1000);
+let time1 = dateObj1.toLocaleDateString('en-US', options);
+document.getElementById("mants").innerHTML="Timestamp: "+time1+"<br>";
+let dateObj2 = new Date(result[1] * 1000);
+let time2 = dateObj2.toLocaleDateString('en-US', options);
+document.getElementById("supts").innerHTML="Timestamp: "+time2+"<br>";
+let dateObj3 = new Date(result[2] * 1000);
+let time3 = dateObj3.toLocaleDateString('en-US', options);
+document.getElementById("logts").innerHTML="Timestamp: "+time3+"<br>"; 
+let dateObj4 = new Date(result[3] * 1000);
+let time4 = dateObj4.toLocaleDateString('en-US', options);
+document.getElementById("userts").innerHTML="Timestamp: "+time4+"<br>";
+});
   contract.methods.returnRolesAddresses(batchno).call().then(function(result) {
     console.log(result);
     document.getElementById("manadd").innerHTML="Address: "+result[0]+"<br>";
